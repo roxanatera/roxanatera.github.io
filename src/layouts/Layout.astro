@@ -2,8 +2,12 @@
 import "../styles/global.css";
 export interface Props {
   title?: string;
+  description?: string;
 }
-const { title = "Julia Roxana Natera | Portfolio" } = Astro.props;
+const {
+  title = "Julia Roxana Natera | Portfolio",
+  description = "Portfolio de Julia Roxana Natera: Full Stack Developer y estudiante de ciberseguridad.",
+} = Astro.props;
 ---
 <!doctype html>
 <html lang="es">
@@ -14,6 +18,10 @@ const { title = "Julia Roxana Natera | Portfolio" } = Astro.props;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
     <title>{title}</title>
   </head>
   <body class="bg-[#07070f] text-gray-100 font-['Inter']">

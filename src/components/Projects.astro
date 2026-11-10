@@ -2,14 +2,113 @@
 import SectionTitle from "./SectionTitle.astro";
 import ProjectCard from "./ProjectCard.astro";
 import { projects } from "../data/projects";
+
+const filters = [
+  { value: "all", es: "Todos", en: "All" },
+  { value: "security", es: "Seguridad", en: "Security" },
+  { value: "dev", es: "Desarrollo", en: "Development" },
+];
+const LIMIT = 6;
 ---
 <section id="projects" class="py-16 md:py-24 px-6 md:px-8 max-w-6xl mx-auto">
   <SectionTitle
     eyebrow={{ es: "Lo que he construido", en: "What I've built" }}
     title={{ es: "Proyectos", en: "Projects" }}
-    class="mb-10 md:mb-14"
+    class="mb-8"
   />
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
+
+  <div class="flex justify-center gap-2 mb-10 md:mb-12 flex-wrap" data-filters>
+    {
+      filters.map((f) => (
+        <button
+          type="button"
+          data-filter={f.value}
+          class:list={[
+            "px-4 py-1.5 rounded-full text-xs font-bold tracking-wider border transition-colors cursor-pointer",
+            f.value === "all"
+              ? "bg-cyan-400 border-cyan-400 text-[#07070f]"
+              : "border-cyan-500/20 text-gray-400 hover:text-cyan-400",
+          ]}
+        >
+          <span data-es={f.es} data-en={f.en}>{f.es}</span>
+        </button>
+      ))
+    }
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" data-grid data-limit={LIMIT}>
     {projects.map((project) => <ProjectCard project={project} />)}
   </div>
+
+  <div class="flex justify-center mt-10">
+    <button
+      type="button"
+      data-more
+      class="hidden border border-cyan-400 text-cyan-400 px-6 py-2.5 rounded text-sm font-bold tracking-wider hover:bg-cyan-400/10 transition-colors cursor-pointer bg-transparent"
+    >
+      <span data-es="Ver más proyectos ↓" data-en="See more projects ↓">Ver más proyectos ↓</span>
+    </button>
+    <button
+      type="button"
+      data-less
+      class="hidden border border-cyan-400 text-cyan-400 px-6 py-2.5 rounded text-sm font-bold tracking-wider hover:bg-cyan-400/10 transition-colors cursor-pointer bg-transparent"
+    >
+      <span data-es="Ver menos ↑" data-en="See less ↑">Ver menos ↑</span>
+    </button>
+  </div>
 </section>
+
+<script>
+  const section = document.getElementById("projects");
+  const grid = section?.querySelector<HTMLElement>("[data-grid]");
+  const cards = Array.from(section?.querySelectorAll<HTMLElement>("[data-project]") ?? []);
+  const limit = Number(grid?.dataset.limit ?? 6);
+  const moreBtn = section?.querySelector<HTMLButtonElement>("[data-more]");
+  const lessBtn = section?.querySelector<HTMLButtonElement>("[data-less]");
+  const filterBtns = Array.from(section?.querySelectorAll<HTMLButtonElement>("[data-filter]") ?? []);
+
+  let filter = "all";
+  let expanded = false;
+
+  function render() {
+    let matches = 0;
+    cards.forEach((card) => {
+      const match = filter === "all" || card.dataset.area === filter;
+      const show = match && (expanded || matches < limit);
+      if (match) matches++;
+      card.classList.toggle("hidden", !show);
+    });
+
+    const hasMore = matches > limit;
+    moreBtn?.classList.toggle("hidden", !hasMore || expanded);
+    lessBtn?.classList.toggle("hidden", !(hasMore && expanded));
+  }
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      filter = btn.dataset.filter ?? "all";
+      expanded = false;
+      filterBtns.forEach((b) => {
+        const active = b === btn;
+        b.classList.toggle("bg-cyan-400", active);
+        b.classList.toggle("border-cyan-400", active);
+        b.classList.toggle("text-[#07070f]", active);
+        b.classList.toggle("border-cyan-500/20", !active);
+        b.classList.toggle("text-gray-400", !active);
+      });
+      render();
+    });
+  });
+
+  moreBtn?.addEventListener("click", () => {
+    expanded = true;
+    render();
+  });
+  lessBtn?.addEventListener("click", () => {
+    expanded = false;
+    render();
+    section?.scrollIntoView({ behavior: "smooth" });
+  });
+
+  render();
+</script>

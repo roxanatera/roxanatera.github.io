@@ -1,0 +1,60 @@
+---
+import SectionTitle from "./SectionTitle.astro";
+
+const items = [
+  {
+    period: { es: "En curso", en: "Ongoing" },
+    title: { es: "Ciberseguridad", en: "Cybersecurity" },
+    place: "EUSA · Sevilla, España",
+    text: {
+      es: "Seguridad de la cadena de suministro, monitorización y detección, auditoría de sistemas y pentesting en laboratorio.",
+      en: "Supply chain security, monitoring and detection, system auditing and lab pentesting.",
+    },
+    active: true,
+  },
+  {
+    period: { es: "2021 – 2024", en: "2021 – 2024" },
+    title: { es: "Desarrollo de Aplicaciones Web (DAW)", en: "Web Application Development (DAW)" },
+    place: "ILERNA · España",
+    text: {
+      es: "Formación oficial. Base sólida en frontend, backend y bases de datos.",
+      en: "Official training. Solid foundation in frontend, backend and databases.",
+    },
+    active: false,
+  },
+  {
+    period: { es: "2012 – 2015", en: "2012 – 2015" },
+    title: { es: "Administración de Empresas", en: "Business Administration" },
+    place: "CUAM · Venezuela",
+    text: { es: "Formación universitaria en gestión y administración.", en: "University training in management and administration." },
+    active: false,
+  },
+];
+---
+<section id="education" class="py-16 md:py-24 px-6 md:px-8 max-w-4xl mx-auto">
+  <SectionTitle
+    eyebrow={{ es: "Trayectoria", en: "Track record" }}
+    title={{ es: "Formación", en: "Education" }}
+    class="mb-12 md:mb-16"
+  />
+  <ol class="relative border-l border-cyan-500/20 ml-3 md:ml-0 space-y-10">
+    {
+      items.map((item) => (
+        <li class="relative pl-8">
+          <span
+            class:list={[
+              "absolute -left-[5px] mt-1.5 w-2.5 h-2.5 rounded-full border-2 border-[#07070f]",
+              item.active ? "bg-cyan-400" : "bg-cyan-500/30",
+            ]}
+          ></span>
+          <p class="text-xs tracking-widest uppercase text-cyan-400 mb-1" data-es={item.period.es} data-en={item.period.en}>
+            {item.period.es}
+          </p>
+          <h3 class="font-bold text-base md:text-lg" data-es={item.title.es} data-en={item.title.en}>{item.title.es}</h3>
+          <p class="text-sm text-gray-300 mt-1">{item.place}</p>
+          <p class="text-sm text-gray-400 mt-2 leading-relaxed" data-es={item.text.es} data-en={item.text.en}>{item.text.es}</p>
+        </li>
+      ))
+    }
+  </ol>
+</section>

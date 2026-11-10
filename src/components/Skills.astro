@@ -1,37 +1,48 @@
 ---
 import SectionTitle from "./SectionTitle.astro";
 
-const skills = [
-  { icon: "🐹", name: "Go", es: "APIs REST y microservicios", en: "REST APIs and microservices" },
-  { icon: "🐍", name: "Python", es: "Backends, seguridad y automatización", en: "Backends, security and automation" },
-  { icon: "⚛️", name: "TypeScript & React", es: "React, Next.js, Node.js", en: "React, Next.js, Node.js" },
-  { icon: "☁️", name: "AWS", es: "Lambda, API Gateway, Cognito", en: "Lambda, API Gateway, Cognito" },
-  { icon: "🐳", name: "Docker", es: "Contenedores y firma de imágenes", en: "Containers and image signing" },
-  { icon: "🏗️", name: "Terraform", es: "Infraestructura como código", en: "Infrastructure as code" },
-  { icon: "🐧", name: "Linux", es: "Auditoría de sistemas · Ubuntu", en: "System auditing · Ubuntu", accent: true },
-  { icon: "🔐", name: "Ciberseguridad", es: "Formándome · En curso", en: "Training · Ongoing", accent: true },
+const groups = [
+  {
+    es: "Desarrollo",
+    en: "Development",
+    items: ["Go", "Python", "TypeScript", "JavaScript", "Node.js", "React", "Next.js", "Tailwind CSS", "APIs REST", "Microservicios", "SQL", "MongoDB"],
+  },
+  {
+    es: "Cloud y DevOps",
+    en: "Cloud & DevOps",
+    items: ["AWS Lambda", "API Gateway", "DynamoDB", "Cognito", "Docker", "Kubernetes", "Terraform", "CI/CD"],
+  },
+  {
+    es: "Seguridad",
+    en: "Security",
+    items: ["Nmap", "WPScan", "Kali Linux", "Notary v2 / Notation", "Auditoría Linux", "Prometheus", "Grafana", "Loki", "PBKDF2", "AES-256-GCM"],
+  },
+  {
+    es: "Sistemas y herramientas",
+    en: "Systems & tools",
+    items: ["Linux (Ubuntu)", "Bash", "Git", "GitHub", "WordPress", "GNS3"],
+  },
 ];
 ---
 <section id="skills" class="py-16 md:py-24 px-6 md:px-8 bg-[#0d0d1a]">
   <div class="max-w-6xl mx-auto">
     <SectionTitle
       eyebrow={{ es: "Lo que sé hacer", en: "What I can do" }}
-      title={{ es: "Skills & Tecnologías", en: "Skills & Technologies" }}
+      title={{ es: "Habilidades", en: "Skills" }}
       class="mb-10 md:mb-14"
     />
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
       {
-        skills.map((skill) => (
-          <div class="bg-white/3 border border-cyan-500/10 rounded-xl p-5 md:p-7 text-center hover:border-cyan-400/30 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)] transition-all">
-            <div class="text-3xl md:text-4xl mb-2 md:mb-3">{skill.icon}</div>
-            <h3 class="font-bold text-sm md:text-base mb-1 md:mb-2">{skill.name}</h3>
-            <p
-              class:list={["text-xs", skill.accent ? "text-cyan-400/70" : "text-gray-500"]}
-              data-es={skill.es}
-              data-en={skill.en}
-            >
-              {skill.es}
-            </p>
+        groups.map((group) => (
+          <div class="bg-white/3 border border-cyan-500/10 rounded-xl p-6 md:p-7">
+            <h3 class="font-bold text-base mb-4 text-cyan-400" data-es={group.es} data-en={group.en}>
+              {group.es}
+            </h3>
+            <div class="flex flex-wrap gap-2">
+              {group.items.map((item) => (
+                <span class="bg-white/5 border border-cyan-500/10 text-gray-300 px-3 py-1 rounded text-xs">{item}</span>
+              ))}
+            </div>
           </div>
         ))
       }

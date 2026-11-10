@@ -1,12 +1,10 @@
 ---
-const isHome = Astro.url.pathname === "/";
-const sectionHref = (id: string) => (isHome ? `#${id}` : `/#${id}`);
 const links = [
-  { href: sectionHref("about"), es: "Sobre mí", en: "About" },
-  { href: sectionHref("skills"), es: "Skills", en: "Skills" },
-  { href: sectionHref("projects"), es: "Proyectos", en: "Projects" },
-  { href: "/certifications", es: "Certs", en: "Certs" },
-  { href: sectionHref("contact"), es: "Contacto", en: "Contact" },
+  { href: "#about", es: "Sobre mí", en: "About" },
+  { href: "#skills", es: "Habilidades", en: "Skills" },
+  { href: "#projects", es: "Proyectos", en: "Projects" },
+  { href: "#education", es: "Formación", en: "Education" },
+  { href: "#contact", es: "Contacto", en: "Contact" },
 ];
 ---
 <nav
@@ -21,7 +19,7 @@ const links = [
         <li>
           <a
             href={link.href}
-            class="text-gray-500 hover:text-cyan-400 transition-colors text-sm tracking-wide"
+            class="text-gray-400 hover:text-cyan-400 transition-colors text-sm tracking-wide"
             data-es={link.es}
             data-en={link.en}
           >
