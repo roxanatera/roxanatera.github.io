@@ -1,0 +1,162 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+const statusStyles = {
+  completed: "bg-green-400/10 border-green-400/30 text-green-400",
+  "in-progress": "bg-orange-400/10 border-orange-400/30 text-orange-400",
+  planned: "bg-gray-500/10 border-cyan-500/10 text-gray-500",
+};
+const statusLabels = {
+  completed: { es: "Completada", en: "Completed" },
+  "in-progress": { es: "En progreso", en: "In progress" },
+  planned: { es: "Planificada", en: "Planned" },
+};
+
+const certs = [
+  { status: "completed" as const },
+  { status: "in-progress" as const, progress: 40 },
+  { status: "planned" as const, placeholder: true },
+  { status: "planned" as const, placeholder: true },
+];
+
+const milestones = [
+  { date: { es: "próximamente", en: "coming soon" }, title: { es: "Logro objetivo", en: "Target achievement" }, text: { es: "Descripción breve del hito — primer CTF completado, primer bug bounty, primer proyecto en producción...", en: "Short description of the milestone — first CTF completed, first bug bounty, first project in production..." }, dim: true },
+  { date: { es: "próximamente", en: "coming soon" }, title: { es: "Logro objetivo", en: "Target achievement" }, text: { es: "Descripción breve del hito.", en: "Short description of the milestone." }, dim: true },
+  { date: { es: "en curso", en: "ongoing" }, title: { es: "Ciberseguridad — EUSA", en: "Cybersecurity — EUSA" }, text: { es: "Formación en curso. Proyectos prácticos en seguridad de la cadena de suministro, monitorización y detección, y auditoría de sistemas.", en: "Ongoing training. Hands-on projects in supply chain security, monitoring and detection, and system auditing." }, dim: false },
+  { date: { es: "2021 – 2024", en: "2021 – 2024" }, title: { es: "DAW — Técnica Superior en Desarrollo de Aplicaciones Web", en: "DAW — Higher Technician in Web Application Development" }, text: { es: "ILERNA · Formación oficial completada. Base sólida en frontend, backend y bases de datos.", en: "ILERNA · Official training completed. Solid foundation in frontend, backend and databases." }, dim: false },
+];
+---
+
+<Layout title="Certificaciones | Portfolio">
+  <Nav />
+
+  <main class="relative max-w-[1100px] mx-auto px-6 md:px-8 pt-28 md:pt-32 pb-24">
+    <header class="mb-16 animate-[fadeUp_0.6s_ease_both]">
+      <p
+        class="text-xs tracking-[0.2em] uppercase text-cyan-400 mb-3 flex items-center gap-2 before:content-[''] before:inline-block before:w-6 before:h-px before:bg-cyan-400"
+        data-es="Trayectoria"
+        data-en="Track record"
+      >
+        Trayectoria
+      </p>
+      <h1 class="text-5xl md:text-7xl font-black tracking-tight leading-none">
+        <span data-es="Certificaciones" data-en="Certifications">Certificaciones</span><br />
+        <span class="text-cyan-400" data-es="& Logros" data-en="& Achievements">&amp; Logros</span>
+      </h1>
+      <p
+        class="mt-4 text-gray-500 max-w-xl leading-relaxed text-sm md:text-base"
+        data-es="Formación continua en ciberseguridad, desarrollo web y sistemas Linux. Cada certificación es un paso más hacia dominar el stack completo."
+        data-en="Continuous training in cybersecurity, web development and Linux systems. Each certification is one more step toward mastering the full stack."
+      >
+        Formación continua en ciberseguridad, desarrollo web y sistemas Linux.
+        Cada certificación es un paso más hacia dominar el stack completo.
+      </p>
+    </header>
+
+    <div class="flex gap-8 flex-wrap mb-14 p-6 md:px-8 bg-[#0d0d1a] border border-cyan-500/10 rounded-xl animate-[fadeUp_0.6s_0.1s_ease_both]">
+      <div class="flex flex-col gap-1">
+        <span id="count-completed" class="font-black text-3xl text-cyan-400">0</span>
+        <span class="text-xs text-gray-500 uppercase tracking-widest" data-es="Completadas" data-en="Completed">Completadas</span>
+      </div>
+      <div class="hidden sm:block w-px bg-cyan-500/10 self-stretch"></div>
+      <div class="flex flex-col gap-1">
+        <span id="count-progress" class="font-black text-3xl text-cyan-400">0</span>
+        <span class="text-xs text-gray-500 uppercase tracking-widest" data-es="En progreso" data-en="In progress">En progreso</span>
+      </div>
+      <div class="hidden sm:block w-px bg-cyan-500/10 self-stretch"></div>
+      <div class="flex flex-col gap-1">
+        <span id="count-planned" class="font-black text-3xl text-cyan-400">0</span>
+        <span class="text-xs text-gray-500 uppercase tracking-widest" data-es="Planificadas" data-en="Planned">Planificadas</span>
+      </div>
+    </div>
+
+    <p class="flex items-center gap-4 text-xs uppercase tracking-[0.2em] text-gray-500 mb-5 after:content-[''] after:flex-1 after:h-px after:bg-cyan-500/10" data-es="Certificaciones" data-en="Certifications">Certificaciones</p>
+
+    <div class="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-5 mb-12">
+      {certs.map((cert) => (
+        <div
+          data-cert
+          data-status={cert.status}
+          data-placeholder={cert.placeholder ? "" : undefined}
+          class:list={[
+            "relative flex flex-col gap-4 p-6 bg-[#0d0d1a] border rounded-xl transition-all animate-[fadeUp_0.5s_ease_both]",
+            cert.placeholder ? "border-dashed border-cyan-500/10 opacity-45" : "border-cyan-500/10 hover:border-cyan-400/30 hover:-translate-y-1",
+          ]}
+        >
+          <span class:list={["inline-flex items-center gap-2 self-start px-2.5 py-1 rounded text-[0.65rem] uppercase tracking-widest border", statusStyles[cert.status]]}>
+            <span class:list={["w-1.5 h-1.5 rounded-full bg-current", cert.status === "in-progress" && "animate-pulse"]}></span>
+            <span data-es={statusLabels[cert.status].es} data-en={statusLabels[cert.status].en}>{statusLabels[cert.status].es}</span>
+          </span>
+          <div>
+            <p class="text-xs uppercase tracking-widest text-gray-500" data-es={cert.placeholder ? "Próximamente" : "Entidad emisora"} data-en={cert.placeholder ? "Coming soon" : "Issuer"}>
+              {cert.placeholder ? "Próximamente" : "Entidad emisora"}
+            </p>
+            <p class="text-base font-semibold leading-snug mt-1" data-es={cert.placeholder ? "Certificación objetivo" : "Nombre de la certificación"} data-en={cert.placeholder ? "Target certification" : "Certification name"}>
+              {cert.placeholder ? "Certificación objetivo" : "Nombre de la certificación"}
+            </p>
+          </div>
+          {cert.progress !== undefined && (
+            <div class="flex flex-col gap-1.5">
+              <div class="flex justify-between text-xs text-gray-500">
+                <span data-es="Progreso" data-en="Progress">Progreso</span>
+                <span>{cert.progress}%</span>
+              </div>
+              <div class="h-[3px] bg-cyan-500/10 rounded overflow-hidden">
+                <div class="h-full bg-orange-400 rounded" style={`width: ${cert.progress}%`}></div>
+              </div>
+            </div>
+          )}
+          <div class="flex items-center justify-between mt-auto pt-3 border-t border-cyan-500/10 text-xs text-gray-500">
+            {cert.placeholder ? (
+              <span>— / —</span>
+            ) : cert.progress !== undefined ? (
+              <span data-es="en curso" data-en="ongoing">en curso</span>
+            ) : (
+              <>
+                <span data-es="mes / año" data-en="month / year">mes / año</span>
+                <a href="#" class="text-cyan-400 opacity-60 hover:opacity-100 transition-opacity" data-es="ver credencial →" data-en="view credential →">ver credencial →</a>
+              </>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <p class="flex items-center gap-4 text-xs uppercase tracking-[0.2em] text-gray-500 mb-5 after:content-[''] after:flex-1 after:h-px after:bg-cyan-500/10" data-es="Logros & Hitos" data-en="Achievements & Milestones">Logros &amp; Hitos</p>
+
+    <div class="flex flex-col">
+      {milestones.map((item) => (
+        <div class="grid grid-cols-[70px_1px_1fr] md:grid-cols-[120px_1px_1fr] gap-x-4 md:gap-x-6 animate-[fadeUp_0.5s_ease_both]">
+          <div class="text-right text-xs text-gray-500 py-6 leading-snug" data-es={item.date.es} data-en={item.date.en}>{item.date.es}</div>
+          <div class="relative bg-cyan-500/10">
+            <div class:list={["absolute top-[1.65rem] left-1/2 -translate-x-1/2 w-2 h-2 rounded-full border-2 border-[#07070f]", item.dim ? "bg-cyan-500/10" : "bg-cyan-400"]}></div>
+          </div>
+          <div class="py-5 pl-2">
+            <h3 class="text-sm md:text-base font-semibold mb-1" data-es={item.title.es} data-en={item.title.en}>{item.title.es}</h3>
+            <p class="text-xs text-gray-500 leading-relaxed" data-es={item.text.es} data-en={item.text.en}>{item.text.es}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  function updateStats() {
+    const count = (selector: string) => document.querySelectorAll(selector).length;
+    const set = (id: string, value: number) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = String(value);
+    };
+
+    set("count-completed", count('[data-cert]:not([data-placeholder])[data-status="completed"]'));
+    set("count-progress", count('[data-cert]:not([data-placeholder])[data-status="in-progress"]'));
+    set("count-planned", count('[data-cert][data-status="planned"]'));
+  }
+
+  updateStats();
+</script>

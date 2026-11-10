@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.fade-up-1 { opacity: 0; animation: fadeUp 0.8s ease 0.1s forwards; }
+.fade-up-2 { opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards; }
+.fade-up-3 { opacity: 0; animation: fadeUp 0.8s ease 0.3s forwards; }
+.fade-up-4 { opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards; }
+.fade-up-5 { opacity: 0; animation: fadeUp 0.8s ease 0.5s forwards; }
+
+.glow-text { text-shadow: 0 0 30px rgba(0,212,255,0.5); }
+.status-dot { animation: glow 2s infinite; }

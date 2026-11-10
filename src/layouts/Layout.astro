@@ -1,0 +1,60 @@
+---
+import "../styles/global.css";
+export interface Props {
+  title?: string;
+}
+const { title = "Julia Roxana Natera | Portfolio" } = Astro.props;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+    <title>{title}</title>
+  </head>
+  <body class="bg-[#07070f] text-gray-100 font-['Inter']">
+    <slot />
+  </body>
+</html>
+
+<script>
+  const toggle = document.getElementById("langToggle");
+  let currentLang = "es";
+  toggle?.addEventListener("click", () => {
+    currentLang = currentLang === "es" ? "en" : "es";
+    toggle.textContent = currentLang === "es" ? "EN" : "ES";
+    document.querySelectorAll("[data-es]").forEach((el) => {
+      const element = el as HTMLElement;
+      const text =
+        currentLang === "es" ? element.dataset.es : element.dataset.en;
+      if (text) element.textContent = text;
+    });
+  });
+
+  const menuBtn = document.getElementById("menuToggle");
+  const mobileMenu = document.getElementById("mobileMenu");
+  menuBtn?.addEventListener("click", () => {
+    mobileMenu?.classList.toggle("hidden");
+    mobileMenu?.classList.toggle("flex");
+  });
+
+  mobileMenu?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      mobileMenu.classList.add("hidden");
+      mobileMenu.classList.remove("flex");
+    });
+  });
+
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", (e) => {
+      e.preventDefault();
+      const href = (anchor as HTMLAnchorElement).getAttribute("href");
+      if (href)
+        document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+</script>
